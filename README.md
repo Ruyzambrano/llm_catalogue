@@ -1,4 +1,6 @@
-# llm-catalogue
+# LLM Catalogue
+
+One of the greatest issues of today is deciding which AI model to use, and navigating a constant, ever changing tier system. I became frustrated trying to hard code which Gemini models were a part of the free tier, and getting stuck in an argument with ChatGPT lying to me about how it actually does have a free tier. So I went and figured it out myself.
 
 Model names, pricing, and free-tier metadata for OpenAI, Anthropic, and Google
 Gemini, in one small zero-dependency package.
