@@ -1,4 +1,3 @@
 requests
-markdown
-pandas
-lxml
+pytest
+build

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "llm-catalogue"
+version = "0.1.0"
+description = "Model names, pricing, and free-tier metadata for OpenAI, Anthropic, and Google Gemini."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "Ruy Zambrano" }
+]
+keywords = ["llm", "ai", "pricing", "gemini", "openai", "claude", "anthropic", "models", "free-tier"]
+dependencies = []
+
+[project.optional-dependencies]
+scraper = ["requests"]
+dev = ["pytest"]
+docs = ["mkdocs", "mkdocs-material", "mkdocstrings[python]"]
+
+[project.urls]
+Homepage = "https://github.com/Ruyzambrano/llm_catalogue"
+Repository = "https://github.com/Ruyzambrano/llm_catalogue"
+Issues = "https://github.com/Ruyzambrano/llm_catalogue/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llm_catalogue"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/llm_catalogue/data/registry.json" = "llm_catalogue/data/registry.json"

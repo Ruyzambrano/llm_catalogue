@@ -1,0 +1,44 @@
+site_name: llm-catalogue
+site_description: Model names, pricing, and free-tier metadata for OpenAI, Anthropic, and Google Gemini.
+repo_url: https://github.com/Ruyzambrano/llm_catalogue
+repo_name: Ruyzambrano/llm_catalogue
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+nav:
+  - Home: index.md
+  - API reference:
+      - Catalog: api/catalog.md
+      - Models: api/models.md
+      - Scraper: api/scraper.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: google
+            show_root_heading: true
+            show_source: false
+            merge_init_into_class: true
+            separate_signature: true
+            show_signature_annotations: true
+
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
+  - pymdownx.highlight
