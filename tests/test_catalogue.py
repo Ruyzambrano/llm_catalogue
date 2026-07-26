@@ -1,5 +1,9 @@
+import json
+import urllib.error
+
 import pytest
 
+from llm_catalogue import catalogue
 from llm_catalogue.catalogue import Catalog
 from llm_catalogue.models import Vendor
 
@@ -7,6 +11,15 @@ from llm_catalogue.models import Vendor
 @pytest.fixture()
 def catalog():
     return Catalog()
+
+
+@pytest.fixture(autouse=True)
+def isolated_cache(monkeypatch, tmp_path):
+    """Points the module-level cache paths at a scratch dir for every test in
+    this file, so refresh() tests never read or write the real
+    ~/.cache/llm_catalogue on the machine running the suite."""
+    monkeypatch.setattr(catalogue, "CACHE_DIR", tmp_path)
+    monkeypatch.setattr(catalogue, "CACHE_FILE", tmp_path / "registry.json")
 
 
 def test_construction_does_not_require_network(catalog):
@@ -63,9 +76,63 @@ def test_get_model_unknown_id_returns_none(catalog):
     assert catalog.get_model("does-not-exist") is None
 
 
-def test_refresh_never_raises_when_unreachable(catalog):
-    # This environment has no route to raw.githubusercontent.com, so this
-    # exercises the real failure path rather than a mocked one.
-    result = catalog.refresh(timeout=2.0, force=True)
+def test_refresh_returns_false_and_keeps_data_on_network_failure(catalog, monkeypatch):
+    def raise_network_error(*args, **kwargs):
+        raise urllib.error.URLError("simulated network failure")
+
+    monkeypatch.setattr(catalogue.urllib.request, "urlopen", raise_network_error)
+    existing_models = catalog.all_models()
+
+    result = catalog.refresh(timeout=1.0, force=True)
+
     assert result is False
-    assert catalog.all_models()  # existing data must survive a failed refresh
+    assert catalog.all_models() == existing_models
+
+
+def test_refresh_updates_data_on_success(catalog, monkeypatch):
+    fake_registry = {
+        "updated_at": "2099-01-01",
+        "models": [
+            {
+                "id": "fake-model",
+                "name": "Fake Model",
+                "vendor": "openai",
+                "pricing": {"standard_input": 1.0, "output": 2.0},
+                "free_tier": {"has_free_tier": False},
+            }
+        ],
+    }
+    raw = json.dumps(fake_registry).encode("utf-8")
+
+    class FakeResponse:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc_info):
+            return False
+
+        def read(self):
+            return raw
+
+    monkeypatch.setattr(catalogue.urllib.request, "urlopen", lambda *a, **k: FakeResponse())
+
+    result = catalog.refresh(force=True)
+
+    assert result is True
+    assert catalog.updated_at == "2099-01-01"
+    assert [m.id for m in catalog.all_models()] == ["fake-model"]
+    assert catalogue.CACHE_FILE.exists()
+
+
+def test_refresh_skips_fetch_when_cache_is_fresh(catalog, monkeypatch):
+    catalogue.CACHE_FILE.write_text(json.dumps({"updated_at": "cached", "models": []}), encoding="utf-8")
+
+    def fail_if_called(*args, **kwargs):
+        raise AssertionError("urlopen should not be called when the cache is still fresh")
+
+    monkeypatch.setattr(catalogue.urllib.request, "urlopen", fail_if_called)
+
+    result = catalog.refresh(force=False)
+
+    assert result is True
+    assert catalog.updated_at == "cached"
