@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "llm-catalogue"
-version = "0.1.0"
+version = "0.2.1"
 description = "Model names, pricing, and free-tier metadata for OpenAI, Anthropic, and Google Gemini."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -24,6 +24,7 @@ docs = ["mkdocs", "mkdocs-material", "mkdocstrings[python]"]
 Homepage = "https://github.com/Ruyzambrano/llm_catalogue"
 Repository = "https://github.com/Ruyzambrano/llm_catalogue"
 Issues = "https://github.com/Ruyzambrano/llm_catalogue/issues"
+Documentation = "https://ruyzambrano.github.io/llm_catalogue/"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/llm_catalogue"]
