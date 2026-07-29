@@ -166,8 +166,11 @@ Review the diff, commit it, and cut a new release so it ships in the next
   aren't modelled yet.
 - `free_tier.rate_limit_rpm` isn't populated — Gemini's free-tier RPM limits
   live on a separate rate-limits doc this scraper doesn't fetch yet.
-- Gemini's tiered (>200k token) pricing is captured via `tiered_pricing`;
-  OpenAI's `<272K context length` models are recorded with `context_window`
-  but don't have a documented over-the-limit rate, so they aren't tiered.
+- Gemini's tiered (>200k token) pricing is captured via `tiered_pricing`.
+  OpenAI's pricing page also splits Standard/Batch/Flex/Priority pricing into
+  "Short context" and "Long context" columns, but doesn't state the token
+  threshold where Long-context pricing kicks in, so only Short-context
+  (base) pricing is captured; `<272K context length` models still get
+  `context_window` set, but aren't tiered.
 
 Data last refreshed: 2026-07-26.

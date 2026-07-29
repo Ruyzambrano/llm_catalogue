@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-26",
+  "updated_at": "2026-07-29",
   "models": [
     {
       "id": "claude-fable-5",
@@ -380,8 +380,8 @@
       "tool_costs": {}
     },
     {
-      "id": "gemini-3.5-live-translate-preview",
-      "name": "Gemini 3.5 Live Translate",
+      "id": "gemini-3.5-flash-lite",
+      "name": "Gemini 3.5 Flash-Lite",
       "vendor": "google",
       "pricing": {
         "standard_input": 0.3,
@@ -480,8 +480,8 @@
       "tool_costs": {}
     },
     {
-      "id": "gemini-3.1-flash-live-preview",
-      "name": "Gemini 3.1 Flash Live Preview",
+      "id": "gemini-3.1-flash-image",
+      "name": "Gemini 3.1 Flash Image",
       "vendor": "google",
       "pricing": {
         "standard_input": 0.5,
@@ -685,8 +685,8 @@
       "tool_costs": {}
     },
     {
-      "id": "gemini-2.5-flash-native-audio-preview-12-2025",
-      "name": "Gemini 2.5 Flash Native Audio",
+      "id": "gemini-2.5-flash-image",
+      "name": "Gemini 2.5 Flash Image",
       "vendor": "google",
       "pricing": {
         "standard_input": 0.3,

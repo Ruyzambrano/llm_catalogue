@@ -115,11 +115,8 @@ def parse_anthropic(text: str) -> List[AIModel]:
     return models
 
 
-_GEMINI_SECTION_RE = re.compile(
-    r"^## (?P<name>[^\n]+)\n\n\*`(?P<id>[a-z0-9.\-]+)`.*?"
-    r"### Standard\n\n(?P<table>\|.+?)(?:\n\n|\Z)",
-    re.MULTILINE | re.DOTALL,
-)
+_GEMINI_HEADER_RE = re.compile(r"^## (?P<name>[^\n]+)\n\n\*`(?P<id>[a-z0-9.\-]+)`", re.MULTILINE)
+_GEMINI_STANDARD_TABLE_RE = re.compile(r"### Standard\n\n(?P<table>\|.+?)(?:\n\n|\Z)", re.DOTALL)
 _GEMINI_TIERED_RE = re.compile(
     r"\$([\d.]+),\s*prompts\s*\\?<=\s*200k tokens\s*\$([\d.]+),\s*prompts\s*\\?>\s*200k"
 )
@@ -138,10 +135,14 @@ def _gemini_cell_prices(cell: str) -> tuple[Optional[float], Optional[float]]:
 def parse_gemini(text: str) -> List[AIModel]:
     """Parses each '## <Model>' section's '### Standard' pricing table.
 
-    Skips sections without a Standard text-pricing table (image/video/audio
-    specialty models) -- those are out of scope for v1. A model's
-    ``free_tier.has_free_tier`` comes directly from whether the doc marks
-    its Input price row "Free of charge" vs "Not available", not a guess.
+    Each section spans from its '## <Model>' heading up to (but not past)
+    the next one, so a section with no Standard table of its own -- e.g. a
+    Live/Translate model billed only per audio minute -- is skipped rather
+    than accidentally matching its neighbour's table. Skips sections without
+    a Standard text-pricing table (image/video/audio specialty models) --
+    those are out of scope for v1. A model's ``free_tier.has_free_tier``
+    comes directly from whether the doc marks its Input price row "Free of
+    charge" vs "Not available", not a guess.
 
     Args:
         text: Raw markdown body fetched from :data:`GEMINI_URL`.
@@ -150,15 +151,23 @@ def parse_gemini(text: str) -> List[AIModel]:
         One AIModel per parseable "## <Model>" section. Models priced past
         a 200k-token threshold get a populated ``tiered_pricing``.
     """
+    headers = list(_GEMINI_HEADER_RE.finditer(text))
     models = []
-    for section in _GEMINI_SECTION_RE.finditer(text):
-        model_id = section.group("id")
-        name, status = _status_and_name(section.group("name"))
-        table = section.group("table")
+    for i, header in enumerate(headers):
+        model_id = header.group("id")
         if "gemini-" not in model_id:
             continue
+        name, status = _status_and_name(header.group("name"))
 
-        body = section.group(0).lower()
+        section_end = headers[i + 1].start() if i + 1 < len(headers) else len(text)
+        section = text[header.start():section_end]
+
+        table_match = _GEMINI_STANDARD_TABLE_RE.search(section)
+        if not table_match:
+            continue
+        table = table_match.group("table")
+
+        body = section.lower()
         if "shut down" in body or "retired" in body:
             status = ModelStatus.RETIRED
         elif "deprecated" in body:
@@ -204,69 +213,69 @@ def parse_gemini(text: str) -> List[AIModel]:
     return models
 
 
-_OPENAI_ROWS_RE = re.compile(
-    r'tier="standard".*?rows=\{\[(?P<rows>.*?)\]\}\s*\n\s*/>', re.DOTALL
-)
-_OPENAI_ROW_ITEM_RE = re.compile(r"\[(.*?)\]", re.DOTALL)
+_OPENAI_STANDARD_TABLE_RE = re.compile(r"### Standard pricing data\n\n(?P<table>\|.+?)(?:\n\n|\Z)", re.DOTALL)
+_OPENAI_PRICE_RE = re.compile(r"\$([\d.]+)")
+
+
+def _openai_price(cell: str) -> Optional[float]:
+    """Extracts a plain "$X"-style dollar amount from an OpenAI table cell,
+    or ``None`` for a "-" (not offered) cell."""
+    match = _OPENAI_PRICE_RE.search(cell or "")
+    return float(match.group(1)) if match else None
 
 
 def parse_openai(text: str) -> List[AIModel]:
-    """Parses the 'Flagship models' standard-tier JS array embedded in the
-    OpenAI pricing doc (it isn't a markdown table -- OpenAI renders it from a
-    JSON-like ``rows={[[...], ...]}`` literal instead).
+    """Parses the 'Flagship models' Standard-tier markdown table (heading
+    ``### Standard pricing data``) from the OpenAI pricing doc.
 
-    Each row has 3 columns (model, input, output), 4 (model, input, cached
-    input, output), or 5 (model, input, cache-read, cache-write, output).
-    ``cached_input`` is always the cache-*read* price; the cache-write
-    column present on newer models isn't captured (see README).
+    As of the 2026-07 page redesign this is a plain markdown table with nine
+    columns -- model, then Short-context input/cached-input/cache-write/output,
+    then the same four for Long-context -- replacing the JS ``rows={[[...]]}``
+    literal the page used to embed instead. Only the Short-context input,
+    cached-input, and output columns are captured: the page doesn't state the
+    token threshold at which Long-context pricing applies, so it can't be
+    turned into a ``tiered_pricing`` the way Gemini's is; cache-write columns
+    remain out of scope too (see README's "Known limitations").
 
     Args:
         text: Raw doc body fetched from :data:`OPENAI_URL`.
 
     Returns:
-        One AIModel per row in the standard-tier table. The API has no
+        One AIModel per row in the Standard pricing table. The API has no
         free tier, so every model's ``free_tier.has_free_tier`` is False.
 
     Raises:
-        ValueError: If the standard-tier ``rows={[...]}`` block can't be
-            found (e.g. the page structure changed).
+        ValueError: If the ``### Standard pricing data`` table can't be
+            found (e.g. the page structure changed again).
     """
-    match = _OPENAI_ROWS_RE.search(text)
+    match = _OPENAI_STANDARD_TABLE_RE.search(text)
     if not match:
         raise ValueError("Could not find the standard-tier pricing rows in the OpenAI pricing doc")
 
+    rows = [r for r in match.group("table").splitlines() if r.startswith("|") and "---" not in r]
+
     models = []
-    for row_match in _OPENAI_ROW_ITEM_RE.finditer(match.group("rows")):
-        try:
-            row = json.loads(f"[{row_match.group(1)}]")
-        except json.JSONDecodeError:
-            continue
-        if len(row) < 3:
+    for row in rows[1:]:  # rows[0] is the header row
+        cells = [c.strip() for c in row.strip().strip("|").split("|")]
+        if len(cells) < 5:
             continue
 
-        raw_name = row[0]
+        raw_name = cells[0]
         name, status = _status_and_name(raw_name)
         context_window = 272_000 if "272K context length" in raw_name else None
 
-        if len(row) == 3:
-            _, standard_input, output = row
-            cached_input = None
-        elif len(row) == 4:
-            _, standard_input, cached_input, output = row
-        else:  # 5 columns: model, input, cache-read, cache-write, output
-            _, standard_input, cached_input, _cache_write, output = row
+        standard_input = _openai_price(cells[1])
+        cached_input = _openai_price(cells[2])
+        output = _openai_price(cells[4])
+        if standard_input is None or output is None:
+            continue
 
-        pricing = TokenPricing(
-            standard_input=float(standard_input) if isinstance(standard_input, (int, float)) else None,
-            output=float(output) if isinstance(output, (int, float)) else None,
-            cached_input=float(cached_input) if isinstance(cached_input, (int, float)) else None,
-        )
         models.append(
             AIModel(
                 id=name,
                 name=name,
                 vendor=Vendor.OPENAI,
-                pricing=pricing,
+                pricing=TokenPricing(standard_input=standard_input, output=output, cached_input=cached_input),
                 context_window=context_window,
                 free_tier=FreeTierPolicy(has_free_tier=False),
                 status=status,
