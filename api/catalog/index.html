@@ -714,7 +714,7 @@
 
 
 </h2>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">Catalog</span><span class="p">(</span><span class="n">registry_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">auto_update</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cache_ttl_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">86400</span><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">Catalog</span><span class="p">(</span><span class="n">registry_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">auto_update</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cache_ttl_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents first">
@@ -771,7 +771,8 @@ pointing at a registry built by your own scraper run.</p>
               <div class="doc-md-description">
                 <p>If True, calls :meth:<code>refresh</code> immediately after
 loading -- so construction <em>can</em> make a network call, but
-only if you opt in.</p>
+only if you opt in. Recommended for any long-running app
+that wants to notice new models without restarting.</p>
               </div>
             </td>
             <td>
@@ -789,11 +790,14 @@ only if you opt in.</p>
               <div class="doc-md-description">
                 <p>How long a cached refresh is considered
 fresh before :meth:<code>refresh</code> will re-fetch it. Defaults to
-24 hours.</p>
+1 hour -- short enough that a long-running process notices
+new pricing within the hour, long enough that frequent
+<code>refresh()</code> calls (e.g. once per request) stay cheap
+file-stat checks rather than network round-trips.</p>
               </div>
             </td>
             <td>
-                  <code>86400</code>
+                  <code>3600</code>
             </td>
           </tr>
       </tbody>
