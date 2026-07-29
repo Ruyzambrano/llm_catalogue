@@ -16,7 +16,12 @@ Full API reference (generated from docstrings): see [Documentation](#documentati
 ```python
 from llm_catalogue import Catalog
 
-catalog = Catalog()
+# auto_update=True keeps a long-running app (a server, a Streamlit app, a
+# notebook you leave open) from silently going stale -- it checks for fresh
+# data on construction and is cheap to call again later (see "Data
+# freshness" below). Leave it off (the default) for tests, scripts, and
+# anywhere you want zero network calls.
+catalog = Catalog(auto_update=True)
 
 # All free-tier-eligible models for a provider ([] if none)
 free_gemini = catalog.get_free_models("google")
@@ -67,18 +72,26 @@ reference for exactly how each argument affects the rate used.
 
 ## Data freshness
 
-`Catalog()` never makes a network call — it reads the `registry.json` bundled
-with the package (or a previously cached one under `~/.cache/llm_catalogue/`),
-so imports stay fast and offline-safe. To pull the latest data from GitHub:
+`Catalog()` on its own never makes a network call — it reads the
+`registry.json` bundled with the package (or a previously cached one under
+`~/.cache/llm_catalogue/`), so imports stay fast and offline-safe. That's the
+right default for tests and one-off scripts, but it also means a plain
+`Catalog()` in a long-running process will happily serve data as old as
+whatever was bundled when it was installed. For anything long-running, use
+`auto_update=True` (see Usage above) or call `refresh()` yourself:
 
 ```python
 catalog = Catalog(auto_update=True)   # fetch on construction
 catalog.refresh()                     # or fetch explicitly, any time
-catalog.refresh(force=True)           # bypass the 24h cache TTL
+catalog.refresh(force=True)           # bypass the 1h cache TTL
 ```
 
-`refresh()` never raises — on failure (offline, timeout, bad response) it
-leaves the currently loaded data untouched and returns `False`.
+`refresh()` checks a local cache file's age before touching the network, so
+calling it liberally (e.g. once per request) is cheap -- it's a file-stat
+check that only becomes an actual HTTP request once the 1-hour TTL
+(`cache_ttl_seconds`) has elapsed. It never raises: on failure (offline,
+timeout, bad response) it leaves the currently loaded data untouched and
+returns `False`.
 
 ## registry.json schema
 

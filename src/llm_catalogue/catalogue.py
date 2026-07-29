@@ -64,7 +64,7 @@ class Catalog:
         self,
         registry_path: Optional[Path] = None,
         auto_update: bool = False,
-        cache_ttl_seconds: int = 86_400,
+        cache_ttl_seconds: int = 3_600,
     ):
         """Loads model data, without making a network call unless asked to.
 
@@ -76,10 +76,14 @@ class Catalog:
                 pointing at a registry built by your own scraper run.
             auto_update: If True, calls :meth:`refresh` immediately after
                 loading -- so construction *can* make a network call, but
-                only if you opt in.
+                only if you opt in. Recommended for any long-running app
+                that wants to notice new models without restarting.
             cache_ttl_seconds: How long a cached refresh is considered
                 fresh before :meth:`refresh` will re-fetch it. Defaults to
-                24 hours.
+                1 hour -- short enough that a long-running process notices
+                new pricing within the hour, long enough that frequent
+                ``refresh()`` calls (e.g. once per request) stay cheap
+                file-stat checks rather than network round-trips.
         """
         self.cache_ttl_seconds = cache_ttl_seconds
         self.updated_at: Optional[str] = None
