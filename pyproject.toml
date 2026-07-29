@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "llm-catalogue"
-version = "0.2.1"
+version = "0.2.5"
 description = "Model names, pricing, and free-tier metadata for OpenAI, Anthropic, and Google Gemini."
 readme = "README.md"
 requires-python = ">=3.9"
