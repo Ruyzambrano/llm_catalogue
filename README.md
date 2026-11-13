@@ -3,7 +3,9 @@
 One of the greatest issues of today is deciding which AI model to use, and navigating a constant, ever changing tier system. I became frustrated trying to hard code which Gemini models were a part of the free tier, and getting stuck in an argument with ChatGPT lying to me about how it actually does have a free tier. So I went and figured it out myself.
 
 Model names, pricing, and free-tier metadata for OpenAI, Anthropic, and Google
-Gemini, in one small zero-dependency package.
+Gemini, in one small zero-dependency package -- built so that a provider
+changing its lineup, its pricing page, or its whole schema doesn't break your
+install. See [Handling provider changes](#handling-provider-changes).
 
 ```bash
 pip install llm-catalogue
@@ -43,7 +45,10 @@ model = catalog.get_model("gemini-2.5-flash")
 ```
 
 `get_models`/`get_free_models`/`has_free_tier` accept `"openai"`, `"anthropic"`
-(or `"claude"`), and `"google"` (or `"gemini"`).
+(or `"claude"`), and `"google"` (or `"gemini"`, `"vertex"`) -- plus the name of
+any other provider present in the loaded registry, so data listing a provider
+newer than your installed version is still queryable. Use `catalog.vendors()`
+to see what the loaded data actually contains instead of hardcoding a list.
 
 ## Estimating request cost
 
@@ -93,6 +98,89 @@ check that only becomes an actual HTTP request once the 1-hour TTL
 timeout, bad response) it leaves the currently loaded data untouched and
 returns `False`.
 
+## Handling provider changes
+
+Providers add models, retire them, rename tiers, reorder pricing tables and
+occasionally rebuild their docs from scratch. Two separate mechanisms keep
+that from reaching you as a crash or as silently wrong data.
+
+### Reading data newer than your install
+
+`Catalog.refresh()` feeds a registry published *today* into whatever version
+of this package you installed *whenever*, so the data model accepts things it
+has never seen:
+
+| If the registry contains... | ...this is what happens |
+|---|---|
+| A provider this release doesn't know (`"mistral"`) | Loads normally. `Vendor("mistral")` works, `catalog.get_models("mistral")` works, `vendor.is_known` is `False`. |
+| A status this release doesn't know (`"sunset"`) | Preserved verbatim on `model.status`. |
+| A pricing field this release doesn't model | Kept in `model.pricing.extra` / `model.extra`, and written back out by `to_dict()` -- nothing is dropped on round trip. |
+| A model with no published price yet | Loads with `is_priced == False`; `calculate_cost()` raises a clear error rather than inventing a number. |
+| One malformed entry | Skipped, listed in `catalog.load_errors`; the other models still load. |
+| A corrupt or truncated cache file | Ignored in favour of the bundled registry. |
+| A `schema_version` newer than this release understands | Refused over the network (your current data stays in place, `refresh()` returns `False`); read best-effort with a warning from local disk. |
+| An empty or broken registry published upstream | `refresh()` returns `False` and the bad response is **not** cached, so one bad deploy can't poison every later start. |
+
+Two smaller things in the same spirit: after `pip install -U`, a stale cache
+no longer shadows the fresher registry that shipped with the upgrade (the
+newer `updated_at` wins), and `get_model()` tolerates gateway-style ids, so
+`"anthropic/claude-opus-5"` and `"Claude-Opus-5"` resolve like `"claude-opus-5"`.
+
+Point `refresh()` at a mirror or an internal registry with the
+`LLM_CATALOGUE_REGISTRY_URL` environment variable (or `Catalog(registry_url=...)`)
+-- each URL gets its own cache file.
+
+### When a provider redesigns its pricing page
+
+The scraper reads pages written for humans, so every parser is a standing bet
+that will eventually be wrong. The design makes that loud instead of quiet:
+
+- **A parser that finds nothing raises `ParseError`.** Returning `[]` would
+  have erased that provider from the registry on the next run.
+- **A collapsed model count is treated as a parse failure.** If a provider
+  returns under half the models already in the registry, the run fails rather
+  than deleting the rest (override with `--allow-partial`).
+- **A failed provider keeps its existing entries** and the registry is not
+  overwritten; the process exits non-zero.
+- **Columns are matched by header text, never position**, so adding or
+  reordering a pricing column changes nothing.
+- **Both layouts parse** where a provider has switched formats -- Google's
+  Markdoc `{% table %}` blocks and the markdown tables they replaced.
+- **A weekly CI job** (`.github/workflows/registry-check.yml`) runs
+  `--check` against the live pages, so a redesign surfaces as a failed run
+  rather than as stale data in the next release.
+
+```bash
+python -m llm_catalogue.scraper --check          # parse everything, write nothing, exit 1 on breakage
+python -m llm_catalogue.scraper --only google    # rebuild one provider, leave the others' entries alone
+python -m llm_catalogue.scraper --allow-partial  # write even if a provider failed, keeping its old entries
+```
+
+### Adding a provider
+
+One decorated function, in `scraper.py`. Nothing else to edit -- `main()`
+iterates the registry of providers, and `Vendor` accepts names it doesn't
+declare:
+
+```python
+@register_provider("mistral", Vendor("mistral"), "https://docs.mistral.ai/pricing.md")
+def parse_mistral(text: str) -> list[AIModel]:
+    rows = table_rows(find_table(text, r"## Pricing"))
+    return [
+        AIModel(
+            id=row[0],
+            name=row[0],
+            vendor=Vendor("mistral"),
+            pricing=TokenPricing(standard_input=money(row[1]), output=money(row[2])),
+        )
+        for row in rows[1:]
+    ]
+```
+
+`table_rows`, `markdoc_tables`, `find_table` and `money` are shared helpers;
+`money` handles `$3.50`, `$3.50 / MTok` and `$1,250`, and returns `None` for
+"not offered" cells.
+
 ## registry.json schema
 
 `Catalog` loads this file at `src/llm_catalogue/data/registry.json`. It's a
@@ -100,6 +188,7 @@ plain JSON document, so you can also read it directly without the package:
 
 | Field | Type | Notes |
 |---|---|---|
+| `schema_version` | int | Format version (currently `1`). A registry declaring a higher one is refused by older installs rather than half-read. Absent means `1`. |
 | `updated_at` | string | ISO date the registry was last rebuilt. |
 | `models` | array | List of model objects, described below. |
 
@@ -114,8 +203,14 @@ Each entry in `models` matches `AIModel.to_dict()`:
 | `context_window` | int or null | Max input tokens, where documented. |
 | `tiered_pricing` | object or null | `{threshold_tokens, base_rate, over_threshold_rate}` for models with context-length-dependent pricing. |
 | `free_tier` | object or null | `{has_free_tier, rate_limit_rpm, data_used_for_training}`. |
-| `status` | string | `"active"`, `"deprecated"`, `"retired"`, or `"limited_availability"`. |
+| `status` | string | `"active"`, `"deprecated"`, `"retired"`, `"limited_availability"`, or any other string a provider's docs start using. |
 | `tool_costs` | object | Reserved for per-tool pricing; empty in v1. |
+
+Any key not listed here is preserved rather than dropped: unrecognized
+model-level keys land in `AIModel.extra` and unrecognized pricing keys in
+`TokenPricing.extra`, and both are written back out by `to_dict()`. That is
+what lets a field added to this schema next year survive a round trip through
+this year's code.
 
 ## Documentation
 
@@ -140,6 +235,7 @@ src/llm_catalogue/
   models.py     # AIModel, TokenPricing, TieredPricing, FreeTierPolicy, Vendor, ModelStatus
   catalogue.py  # Catalog -- the main entry point
   scraper.py    # dev-only tool that rebuilds data/registry.json
+  _version.py   # the one place the version number lives
   data/registry.json
 tests/          # pytest
 docs/           # mkdocs source
@@ -165,13 +261,19 @@ This overwrites `src/llm_catalogue/data/registry.json` from:
 - [Claude pricing](https://platform.claude.com/docs/en/about-claude/pricing.md)
 - [OpenAI pricing](https://developers.openai.com/api/docs/pricing.md)
 
+It exits non-zero if any provider failed to parse, and in that case does not
+overwrite the registry -- see [When a provider redesigns its pricing
+page](#when-a-provider-redesigns-its-pricing-page) for the flags.
+
 Review the diff, commit it, and cut a new release so it ships in the next
-`pip install`.
+`pip install`. Bump the version in `src/llm_catalogue/_version.py`; the build
+and the refresh User-Agent both read it from there.
 
 ## Scope and known limitations (v1)
 
-- Only "Standard" tier, text-in/text-out pricing is captured. Batch pricing is
-  included where the source table has it; Flex/Priority tiers are not.
+- Only "Standard" tier, text-in/text-out pricing is captured, plus Batch
+  pricing where the provider publishes it (currently OpenAI and Gemini).
+  Flex/Priority tiers are not.
 - Multimodal, audio, image, video, and embedding-specialist models are out of
   scope — this tracks general-purpose chat/text LLMs.
 - `cached_input` is the cache-*read* price. Separate cache-*write* premiums
@@ -179,11 +281,13 @@ Review the diff, commit it, and cut a new release so it ships in the next
   aren't modelled yet.
 - `free_tier.rate_limit_rpm` isn't populated — Gemini's free-tier RPM limits
   live on a separate rate-limits doc this scraper doesn't fetch yet.
-- Gemini's tiered (>200k token) pricing is captured via `tiered_pricing`.
+- Context-length tiering is captured via `tiered_pricing` for Gemini (whose
+  threshold is read off the page, not assumed to be 200k) and for Anthropic
+  models the docs split across "up to N tokens" / "over N tokens" rows.
   OpenAI's pricing page also splits Standard/Batch/Flex/Priority pricing into
   "Short context" and "Long context" columns, but doesn't state the token
   threshold where Long-context pricing kicks in, so only Short-context
   (base) pricing is captured; `<272K context length` models still get
   `context_window` set, but aren't tiered.
 
-Data last refreshed: 2026-07-26.
+Data last refreshed: 2026-11-13.

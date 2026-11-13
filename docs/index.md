@@ -1,7 +1,9 @@
 # llm-catalogue
 
 Model names, pricing, and free-tier metadata for OpenAI, Anthropic, and Google
-Gemini, in one small zero-dependency package.
+Gemini, in one small zero-dependency package -- built so that a provider
+changing its lineup, its pricing page, or its data format doesn't break your
+install.
 
 ```bash
 pip install llm-catalogue
@@ -27,4 +29,14 @@ bundled pricing data.
   `AIModel`, `TokenPricing`, `TieredPricing`, `FreeTierPolicy`, `Vendor`,
   `ModelStatus`.
 - [Scraper](api/scraper.md) — the dev-only tool that rebuilds
-  `registry.json` from each provider's pricing docs. Not used at runtime.
+  `registry.json` from each provider's pricing docs, and the one-decorator
+  extension point for adding a provider. Not used at runtime.
+
+## Surviving provider changes
+
+Unknown vendors, statuses and pricing fields in the registry are accepted and
+preserved rather than rejected, so `Catalog.refresh()` can safely pull data
+published after your installed version. The scraper, for its part, treats a
+parser that suddenly finds nothing as a failure rather than as a provider with
+no models. The README has the
+[full table of behaviours](https://github.com/Ruyzambrano/llm_catalogue#handling-provider-changes).

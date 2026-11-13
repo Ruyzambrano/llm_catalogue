@@ -1,0 +1,35 @@
+name: Registry check
+
+# The parsers in scraper.py read pages the providers redesign without notice.
+# This run exists so that a redesign shows up here, as a failed scheduled job,
+# instead of showing up as a registry that quietly lost a provider.
+#
+# It never writes anything -- `--check` parses and reports only.
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Mondays, 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install
+        run: pip install -e ".[scraper]"
+
+      - name: Parse every provider's live pricing doc
+        run: python -m llm_catalogue.scraper --check
+
+      - name: Explain a failure
+        if: failure()
+        run: |
+          echo "::notice::A provider's pricing page no longer parses, or its model" \
+               "count collapsed. Update the parser in src/llm_catalogue/scraper.py," \
+               "then run 'python -m llm_catalogue.scraper' to rebuild the registry."

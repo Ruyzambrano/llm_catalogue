@@ -1,6 +1,91 @@
 {
-  "updated_at": "2026-07-29",
+  "schema_version": 1,
+  "updated_at": "2026-11-13",
   "models": [
+    {
+      "id": "claude-fable-5-2",
+      "name": "Claude Fable 5.2",
+      "vendor": "anthropic",
+      "pricing": {
+        "standard_input": 8.0,
+        "output": 40.0,
+        "cached_input": 0.2,
+        "batch_input": null,
+        "batch_output": null
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "claude-mythos-5-2",
+      "name": "Claude Mythos 5.2",
+      "vendor": "anthropic",
+      "pricing": {
+        "standard_input": 8.0,
+        "output": 40.0,
+        "cached_input": 0.2,
+        "batch_input": null,
+        "batch_output": null
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "limited_availability",
+      "tool_costs": {}
+    },
+    {
+      "id": "claude-fable-5-1",
+      "name": "Claude Fable 5.1",
+      "vendor": "anthropic",
+      "pricing": {
+        "standard_input": 10.0,
+        "output": 50.0,
+        "cached_input": 0.25,
+        "batch_input": null,
+        "batch_output": null
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "claude-mythos-5-1",
+      "name": "Claude Mythos 5.1",
+      "vendor": "anthropic",
+      "pricing": {
+        "standard_input": 10.0,
+        "output": 50.0,
+        "cached_input": 0.25,
+        "batch_input": null,
+        "batch_output": null
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "limited_availability",
+      "tool_costs": {}
+    },
     {
       "id": "claude-fable-5",
       "name": "Claude Fable 5",
@@ -41,6 +126,27 @@
         "data_used_for_training": null
       },
       "status": "limited_availability",
+      "tool_costs": {}
+    },
+    {
+      "id": "claude-opus-5-5",
+      "name": "Claude Opus 5.5",
+      "vendor": "anthropic",
+      "pricing": {
+        "standard_input": 4.0,
+        "output": 20.0,
+        "cached_input": 0.2,
+        "batch_input": null,
+        "batch_output": null
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "active",
       "tool_costs": {}
     },
     {
@@ -166,7 +272,7 @@
         "rate_limit_rpm": null,
         "data_used_for_training": null
       },
-      "status": "deprecated",
+      "status": "retired",
       "tool_costs": {}
     },
     {
@@ -191,13 +297,13 @@
       "tool_costs": {}
     },
     {
-      "id": "claude-sonnet-5-through-august-31-2026",
-      "name": "Claude Sonnet 5 [through August 31, 2026]",
+      "id": "claude-sonnet-5-5",
+      "name": "Claude Sonnet 5.5",
       "vendor": "anthropic",
       "pricing": {
         "standard_input": 2.0,
         "output": 10.0,
-        "cached_input": 0.2,
+        "cached_input": 0.1,
         "batch_input": null,
         "batch_output": null
       },
@@ -212,13 +318,13 @@
       "tool_costs": {}
     },
     {
-      "id": "claude-sonnet-5-starting-september-1-2026",
-      "name": "Claude Sonnet 5 starting September 1, 2026",
+      "id": "claude-sonnet-5",
+      "name": "Claude Sonnet 5",
       "vendor": "anthropic",
       "pricing": {
-        "standard_input": 3.0,
-        "output": 15.0,
-        "cached_input": 0.3,
+        "standard_input": 2.0,
+        "output": 10.0,
+        "cached_input": 0.2,
         "batch_input": null,
         "batch_output": null
       },
@@ -296,6 +402,43 @@
       "tool_costs": {}
     },
     {
+      "id": "claude-haiku-5-5",
+      "name": "Claude Haiku 5.5",
+      "vendor": "anthropic",
+      "pricing": {
+        "standard_input": 0.1,
+        "output": 0.5,
+        "cached_input": 0.01,
+        "batch_input": null,
+        "batch_output": null
+      },
+      "context_window": null,
+      "tiered_pricing": {
+        "threshold_tokens": 100000,
+        "base_rate": {
+          "standard_input": 0.1,
+          "output": 0.5,
+          "cached_input": 0.01,
+          "batch_input": null,
+          "batch_output": null
+        },
+        "over_threshold_rate": {
+          "standard_input": 0.5,
+          "output": 2.5,
+          "cached_input": 0.05,
+          "batch_input": null,
+          "batch_output": null
+        }
+      },
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
       "id": "claude-haiku-4-5",
       "name": "Claude Haiku 4.5",
       "vendor": "anthropic",
@@ -317,15 +460,15 @@
       "tool_costs": {}
     },
     {
-      "id": "claude-haiku-3-5",
-      "name": "Claude Haiku 3.5",
-      "vendor": "anthropic",
+      "id": "gemini-4-carbon",
+      "name": "Gemini 4 Carbon",
+      "vendor": "google",
       "pricing": {
-        "standard_input": 0.8,
-        "output": 4.0,
-        "cached_input": 0.08,
-        "batch_input": null,
-        "batch_output": null
+        "standard_input": 2.0,
+        "output": 10.0,
+        "cached_input": 0.1,
+        "batch_input": 1.0,
+        "batch_output": 5.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -334,7 +477,70 @@
         "rate_limit_rpm": null,
         "data_used_for_training": null
       },
-      "status": "retired",
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "gemini-4-argon",
+      "name": "Gemini 4 Argon",
+      "vendor": "google",
+      "pricing": {
+        "standard_input": 2.0,
+        "output": 10.0,
+        "cached_input": 0.1,
+        "batch_input": 1.0,
+        "batch_output": 5.0
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "gemini-4-hydrogen",
+      "name": "Gemini 4 Hydrogen",
+      "vendor": "google",
+      "pricing": {
+        "standard_input": 1.5,
+        "output": 7.5,
+        "cached_input": 0.075,
+        "batch_input": 0.75,
+        "batch_output": 3.75
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": true,
+        "rate_limit_rpm": null,
+        "data_used_for_training": true
+      },
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "gemini-3.8-flash",
+      "name": "Gemini 3.8 Flash",
+      "vendor": "google",
+      "pricing": {
+        "standard_input": 0.75,
+        "output": 3.75,
+        "cached_input": 0.075,
+        "batch_input": 0.375,
+        "batch_output": 1.875
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": true,
+        "rate_limit_rpm": null,
+        "data_used_for_training": true
+      },
+      "status": "active",
       "tool_costs": {}
     },
     {
@@ -342,9 +548,30 @@
       "name": "Gemini 3.6 Flash",
       "vendor": "google",
       "pricing": {
-        "standard_input": 1.5,
-        "output": 7.5,
-        "cached_input": 0.15,
+        "standard_input": 0.75,
+        "output": 3.75,
+        "cached_input": 0.075,
+        "batch_input": 0.375,
+        "batch_output": 1.875
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": true,
+        "rate_limit_rpm": null,
+        "data_used_for_training": true
+      },
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "gemini-3.5-transcribe-live",
+      "name": "Gemini 3.5 Transcribe Live",
+      "vendor": "google",
+      "pricing": {
+        "standard_input": 3.5,
+        "output": 21.0,
+        "cached_input": null,
         "batch_input": null,
         "batch_output": null
       },
@@ -359,13 +586,13 @@
       "tool_costs": {}
     },
     {
-      "id": "gemini-3.5-flash",
-      "name": "Gemini 3.5 Flash",
+      "id": "gemini-3.5-transcribe",
+      "name": "Gemini 3.5 Transcribe",
       "vendor": "google",
       "pricing": {
-        "standard_input": 1.5,
-        "output": 9.0,
-        "cached_input": 0.15,
+        "standard_input": 2.0,
+        "output": 12.0,
+        "cached_input": null,
         "batch_input": null,
         "batch_output": null
       },
@@ -387,6 +614,69 @@
         "standard_input": 0.3,
         "output": 2.5,
         "cached_input": 0.03,
+        "batch_input": 0.15,
+        "batch_output": 1.25
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": true,
+        "rate_limit_rpm": null,
+        "data_used_for_training": true
+      },
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "gemini-omni-1.2-flash",
+      "name": "Gemini Omni 1.2 Flash",
+      "vendor": "google",
+      "pricing": {
+        "standard_input": 1.5,
+        "output": 9.0,
+        "cached_input": null,
+        "batch_input": null,
+        "batch_output": null
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "gemini-omni-1.1-flash",
+      "name": "Gemini Omni 1.1 Flash",
+      "vendor": "google",
+      "pricing": {
+        "standard_input": 1.5,
+        "output": 9.0,
+        "cached_input": null,
+        "batch_input": null,
+        "batch_output": null
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "gemini-3.5-live-translate-preview",
+      "name": "Gemini 3.5 Live Translate",
+      "vendor": "google",
+      "pricing": {
+        "standard_input": 3.5,
+        "output": 21.0,
+        "cached_input": null,
         "batch_input": null,
         "batch_output": null
       },
@@ -408,8 +698,8 @@
         "standard_input": 0.25,
         "output": 1.5,
         "cached_input": 0.025,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.125,
+        "batch_output": 0.75
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -422,27 +712,6 @@
       "tool_costs": {}
     },
     {
-      "id": "gemini-omni-flash-preview",
-      "name": "Gemini Omni Flash Preview",
-      "vendor": "google",
-      "pricing": {
-        "standard_input": 1.5,
-        "output": 9.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
       "id": "gemini-3.1-pro-preview",
       "name": "Gemini 3.1 Pro Preview",
       "vendor": "google",
@@ -450,8 +719,8 @@
         "standard_input": 2.0,
         "output": 12.0,
         "cached_input": 0.2,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 1.0,
+        "batch_output": 6.0
       },
       "context_window": null,
       "tiered_pricing": {
@@ -460,8 +729,8 @@
           "standard_input": 2.0,
           "output": 12.0,
           "cached_input": 0.2,
-          "batch_input": null,
-          "batch_output": null
+          "batch_input": 1.0,
+          "batch_output": 6.0
         },
         "over_threshold_rate": {
           "standard_input": 4.0,
@@ -471,6 +740,27 @@
           "batch_output": null
         }
       },
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "limited_availability",
+      "tool_costs": {}
+    },
+    {
+      "id": "gemini-nano-banana-2.1",
+      "name": "Gemini Nano Banana 2.1 \ud83c\udf4c",
+      "vendor": "google",
+      "pricing": {
+        "standard_input": 1.5,
+        "output": 7.5,
+        "cached_input": null,
+        "batch_input": 0.75,
+        "batch_output": 3.75
+      },
+      "context_window": null,
+      "tiered_pricing": null,
       "free_tier": {
         "has_free_tier": false,
         "rate_limit_rpm": null,
@@ -508,8 +798,8 @@
         "standard_input": 0.25,
         "output": 1.5,
         "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.125,
+        "batch_output": 0.75
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -522,15 +812,15 @@
       "tool_costs": {}
     },
     {
-      "id": "gemini-3.1-flash-tts-preview",
-      "name": "Gemini 3.1 Flash TTS Preview",
+      "id": "gemini-3.8-flash-tts",
+      "name": "Gemini 3.8 Flash TTS",
       "vendor": "google",
       "pricing": {
-        "standard_input": 1.0,
-        "output": 20.0,
+        "standard_input": 0.5,
+        "output": 9.0,
         "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.25,
+        "batch_output": 4.5
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -543,15 +833,15 @@
       "tool_costs": {}
     },
     {
-      "id": "gemini-3-flash-preview",
-      "name": "Gemini 3 Flash Preview",
+      "id": "gemini-3.8-flash-lite-tts",
+      "name": "Gemini 3.8 Flash-Lite TTS",
       "vendor": "google",
       "pricing": {
         "standard_input": 0.5,
-        "output": 3.0,
-        "cached_input": 0.05,
-        "batch_input": null,
-        "batch_output": null
+        "output": 6.0,
+        "cached_input": null,
+        "batch_input": 0.25,
+        "batch_output": 3.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -561,6 +851,48 @@
         "data_used_for_training": true
       },
       "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "gemini-3.1-flash-tts-preview",
+      "name": "Gemini 3.1 Flash TTS Preview",
+      "vendor": "google",
+      "pricing": {
+        "standard_input": 1.0,
+        "output": 20.0,
+        "cached_input": null,
+        "batch_input": 0.5,
+        "batch_output": 10.0
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": true,
+        "rate_limit_rpm": null,
+        "data_used_for_training": true
+      },
+      "status": "limited_availability",
+      "tool_costs": {}
+    },
+    {
+      "id": "gemini-3-flash-preview",
+      "name": "Gemini 3 Flash Preview",
+      "vendor": "google",
+      "pricing": {
+        "standard_input": 0.5,
+        "output": 3.0,
+        "cached_input": 0.05,
+        "batch_input": 0.25,
+        "batch_output": 1.5
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": true,
+        "rate_limit_rpm": null,
+        "data_used_for_training": true
+      },
+      "status": "limited_availability",
       "tool_costs": {}
     },
     {
@@ -592,8 +924,8 @@
         "standard_input": 1.25,
         "output": 10.0,
         "cached_input": 0.125,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.625,
+        "batch_output": 5.0
       },
       "context_window": null,
       "tiered_pricing": {
@@ -602,8 +934,8 @@
           "standard_input": 1.25,
           "output": 10.0,
           "cached_input": 0.125,
-          "batch_input": null,
-          "batch_output": null
+          "batch_input": 0.625,
+          "batch_output": 5.0
         },
         "over_threshold_rate": {
           "standard_input": 2.5,
@@ -618,7 +950,7 @@
         "rate_limit_rpm": null,
         "data_used_for_training": true
       },
-      "status": "active",
+      "status": "deprecated",
       "tool_costs": {}
     },
     {
@@ -629,8 +961,8 @@
         "standard_input": 0.3,
         "output": 2.5,
         "cached_input": 0.03,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.15,
+        "batch_output": 1.25
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -639,7 +971,7 @@
         "rate_limit_rpm": null,
         "data_used_for_training": true
       },
-      "status": "active",
+      "status": "deprecated",
       "tool_costs": {}
     },
     {
@@ -650,29 +982,8 @@
         "standard_input": 0.1,
         "output": 0.4,
         "cached_input": 0.01,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": true,
-        "rate_limit_rpm": null,
-        "data_used_for_training": true
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gemini-2.5-flash-lite-preview-09-2025",
-      "name": "Gemini 2.5 Flash-Lite Preview",
-      "vendor": "google",
-      "pricing": {
-        "standard_input": 0.1,
-        "output": 0.4,
-        "cached_input": 0.01,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.05,
+        "batch_output": 0.2
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -692,8 +1003,8 @@
         "standard_input": 0.3,
         "output": 0.039,
         "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.15,
+        "batch_output": 0.0195
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -702,7 +1013,7 @@
         "rate_limit_rpm": null,
         "data_used_for_training": null
       },
-      "status": "active",
+      "status": "deprecated",
       "tool_costs": {}
     },
     {
@@ -713,8 +1024,8 @@
         "standard_input": 0.5,
         "output": 10.0,
         "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.25,
+        "batch_output": 5.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -723,7 +1034,7 @@
         "rate_limit_rpm": null,
         "data_used_for_training": true
       },
-      "status": "active",
+      "status": "limited_availability",
       "tool_costs": {}
     },
     {
@@ -734,8 +1045,8 @@
         "standard_input": 1.0,
         "output": 20.0,
         "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.5,
+        "batch_output": 10.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -744,37 +1055,16 @@
         "rate_limit_rpm": null,
         "data_used_for_training": null
       },
-      "status": "active",
+      "status": "limited_availability",
       "tool_costs": {}
     },
     {
-      "id": "gemini-2.0-flash",
-      "name": "Gemini 2.0 Flash",
+      "id": "gemini-decision",
+      "name": "Gemini Decision 1",
       "vendor": "google",
       "pricing": {
         "standard_input": 0.1,
-        "output": 0.4,
-        "cached_input": 0.025,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": true,
-        "rate_limit_rpm": null,
-        "data_used_for_training": true
-      },
-      "status": "retired",
-      "tool_costs": {}
-    },
-    {
-      "id": "gemini-2.0-flash-lite",
-      "name": "Gemini 2.0 Flash-Lite",
-      "vendor": "google",
-      "pricing": {
-        "standard_input": 0.075,
-        "output": 0.3,
+        "output": null,
         "cached_input": null,
         "batch_input": null,
         "batch_output": null
@@ -786,12 +1076,33 @@
         "rate_limit_rpm": null,
         "data_used_for_training": true
       },
-      "status": "retired",
+      "status": "active",
       "tool_costs": {}
     },
     {
-      "id": "gemini-robotics-er-1.6-preview",
-      "name": "Gemini Robotics-ER 1.6 Preview",
+      "id": "gemini-robotics-er-2",
+      "name": "Gemini Robotics ER 2 Preview",
+      "vendor": "google",
+      "pricing": {
+        "standard_input": 1.0,
+        "output": 5.0,
+        "cached_input": 0.1,
+        "batch_input": 0.5,
+        "batch_output": 2.5
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": true,
+        "rate_limit_rpm": null,
+        "data_used_for_training": true
+      },
+      "status": "limited_availability",
+      "tool_costs": {}
+    },
+    {
+      "id": "gemini-robotics-er-2-streaming",
+      "name": "Gemini Robotics ER 2 Streaming Preview",
       "vendor": "google",
       "pricing": {
         "standard_input": 1.0,
@@ -807,6 +1118,111 @@
         "rate_limit_rpm": null,
         "data_used_for_training": true
       },
+      "status": "limited_availability",
+      "tool_costs": {}
+    },
+    {
+      "id": "gpt-6-astra",
+      "name": "gpt-6-astra",
+      "vendor": "openai",
+      "pricing": {
+        "standard_input": 10.0,
+        "output": 50.0,
+        "cached_input": 1.0,
+        "batch_input": 5.0,
+        "batch_output": 25.0
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "gpt-6.1-sol",
+      "name": "gpt-6.1-sol",
+      "vendor": "openai",
+      "pricing": {
+        "standard_input": 2.0,
+        "output": 10.0,
+        "cached_input": 0.1,
+        "batch_input": 1.0,
+        "batch_output": 5.0
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "gpt-6.1-terra",
+      "name": "gpt-6.1-terra",
+      "vendor": "openai",
+      "pricing": {
+        "standard_input": 1.0,
+        "output": 5.0,
+        "cached_input": 0.05,
+        "batch_input": 0.5,
+        "batch_output": 2.5
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "gpt-6-luna",
+      "name": "gpt-6-luna",
+      "vendor": "openai",
+      "pricing": {
+        "standard_input": 0.1,
+        "output": 0.5,
+        "cached_input": 0.01,
+        "batch_input": 0.05,
+        "batch_output": 0.25
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "gpt-6-sol",
+      "name": "gpt-6-sol",
+      "vendor": "openai",
+      "pricing": {
+        "standard_input": 2.0,
+        "output": 10.0,
+        "cached_input": 0.2,
+        "batch_input": 1.0,
+        "batch_output": 5.0
+      },
+      "context_window": null,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
       "status": "active",
       "tool_costs": {}
     },
@@ -815,11 +1231,11 @@
       "name": "gpt-5.6-sol",
       "vendor": "openai",
       "pricing": {
-        "standard_input": 5.0,
-        "output": 30.0,
-        "cached_input": 0.5,
-        "batch_input": null,
-        "batch_output": null
+        "standard_input": 4.0,
+        "output": 20.0,
+        "cached_input": 0.4,
+        "batch_input": 2.0,
+        "batch_output": 10.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -836,11 +1252,11 @@
       "name": "gpt-5.6-terra",
       "vendor": "openai",
       "pricing": {
-        "standard_input": 2.5,
-        "output": 15.0,
-        "cached_input": 0.25,
-        "batch_input": null,
-        "batch_output": null
+        "standard_input": 2.0,
+        "output": 12.0,
+        "cached_input": 0.2,
+        "batch_input": 1.0,
+        "batch_output": 6.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -857,11 +1273,11 @@
       "name": "gpt-5.6-luna",
       "vendor": "openai",
       "pricing": {
-        "standard_input": 1.0,
-        "output": 6.0,
-        "cached_input": 0.1,
-        "batch_input": null,
-        "batch_output": null
+        "standard_input": 0.2,
+        "output": 1.2,
+        "cached_input": 0.02,
+        "batch_input": 0.1,
+        "batch_output": 0.6
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -881,8 +1297,8 @@
         "standard_input": 5.0,
         "output": 30.0,
         "cached_input": 0.5,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 2.5,
+        "batch_output": 15.0
       },
       "context_window": 272000,
       "tiered_pricing": null,
@@ -902,8 +1318,8 @@
         "standard_input": 30.0,
         "output": 180.0,
         "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 15.0,
+        "batch_output": 90.0
       },
       "context_window": 272000,
       "tiered_pricing": null,
@@ -923,8 +1339,29 @@
         "standard_input": 2.5,
         "output": 15.0,
         "cached_input": 0.25,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 1.25,
+        "batch_output": 7.5
+      },
+      "context_window": 272000,
+      "tiered_pricing": null,
+      "free_tier": {
+        "has_free_tier": false,
+        "rate_limit_rpm": null,
+        "data_used_for_training": null
+      },
+      "status": "active",
+      "tool_costs": {}
+    },
+    {
+      "id": "gpt-5.4-pro",
+      "name": "gpt-5.4-pro",
+      "vendor": "openai",
+      "pricing": {
+        "standard_input": 30.0,
+        "output": 180.0,
+        "cached_input": null,
+        "batch_input": 15.0,
+        "batch_output": 90.0
       },
       "context_window": 272000,
       "tiered_pricing": null,
@@ -944,8 +1381,8 @@
         "standard_input": 0.75,
         "output": 4.5,
         "cached_input": 0.075,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.375,
+        "batch_output": 2.25
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -965,31 +1402,10 @@
         "standard_input": 0.2,
         "output": 1.25,
         "cached_input": 0.02,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.1,
+        "batch_output": 0.625
       },
       "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-5.4-pro",
-      "name": "gpt-5.4-pro",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 30.0,
-        "output": 180.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": 272000,
       "tiered_pricing": null,
       "free_tier": {
         "has_free_tier": false,
@@ -1007,8 +1423,8 @@
         "standard_input": 1.75,
         "output": 14.0,
         "cached_input": 0.175,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.875,
+        "batch_output": 7.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -1028,8 +1444,8 @@
         "standard_input": 21.0,
         "output": 168.0,
         "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 10.5,
+        "batch_output": 84.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -1049,8 +1465,8 @@
         "standard_input": 1.25,
         "output": 10.0,
         "cached_input": 0.125,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.625,
+        "batch_output": 5.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -1070,8 +1486,8 @@
         "standard_input": 1.25,
         "output": 10.0,
         "cached_input": 0.125,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.625,
+        "batch_output": 5.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -1091,8 +1507,8 @@
         "standard_input": 0.25,
         "output": 2.0,
         "cached_input": 0.025,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.125,
+        "batch_output": 1.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -1112,8 +1528,8 @@
         "standard_input": 0.05,
         "output": 0.4,
         "cached_input": 0.005,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.025,
+        "batch_output": 0.2
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -1133,8 +1549,8 @@
         "standard_input": 15.0,
         "output": 120.0,
         "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 7.5,
+        "batch_output": 60.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -1154,8 +1570,8 @@
         "standard_input": 2.0,
         "output": 8.0,
         "cached_input": 0.5,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 1.0,
+        "batch_output": 4.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -1175,29 +1591,8 @@
         "standard_input": 0.4,
         "output": 1.6,
         "cached_input": 0.1,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-4.1-nano",
-      "name": "gpt-4.1-nano",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 0.1,
-        "output": 0.4,
-        "cached_input": 0.025,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.2,
+        "batch_output": 0.8
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -1217,29 +1612,8 @@
         "standard_input": 2.5,
         "output": 10.0,
         "cached_input": 1.25,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-4o-2024-05-13",
-      "name": "gpt-4o-2024-05-13",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 5.0,
-        "output": 15.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 1.25,
+        "batch_output": 5.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -1259,50 +1633,8 @@
         "standard_input": 0.15,
         "output": 0.6,
         "cached_input": 0.075,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "o1",
-      "name": "o1",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 15.0,
-        "output": 60.0,
-        "cached_input": 7.5,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "o1-pro",
-      "name": "o1-pro",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 150.0,
-        "output": 600.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 0.075,
+        "batch_output": 0.3
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -1322,8 +1654,8 @@
         "standard_input": 20.0,
         "output": 80.0,
         "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 10.0,
+        "batch_output": 40.0
       },
       "context_window": null,
       "tiered_pricing": null,
@@ -1343,407 +1675,8 @@
         "standard_input": 2.0,
         "output": 8.0,
         "cached_input": 0.5,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "o4-mini",
-      "name": "o4-mini",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 1.1,
-        "output": 4.4,
-        "cached_input": 0.275,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "o3-mini",
-      "name": "o3-mini",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 1.1,
-        "output": 4.4,
-        "cached_input": 0.55,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "o1-mini",
-      "name": "o1-mini",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 1.1,
-        "output": 4.4,
-        "cached_input": 0.55,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-4-turbo-2024-04-09",
-      "name": "gpt-4-turbo-2024-04-09",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 10.0,
-        "output": 30.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-4-0125-preview",
-      "name": "gpt-4-0125-preview",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 10.0,
-        "output": 30.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-4-1106-preview",
-      "name": "gpt-4-1106-preview",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 10.0,
-        "output": 30.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-4-1106-vision-preview",
-      "name": "gpt-4-1106-vision-preview",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 10.0,
-        "output": 30.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-4-0613",
-      "name": "gpt-4-0613",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 30.0,
-        "output": 60.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-4-0314",
-      "name": "gpt-4-0314",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 30.0,
-        "output": 60.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-4-32k",
-      "name": "gpt-4-32k",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 60.0,
-        "output": 120.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-3.5-turbo",
-      "name": "gpt-3.5-turbo",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 0.5,
-        "output": 1.5,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-3.5-turbo-0125",
-      "name": "gpt-3.5-turbo-0125",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 0.5,
-        "output": 1.5,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-3.5-turbo-1106",
-      "name": "gpt-3.5-turbo-1106",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 1.0,
-        "output": 2.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-3.5-turbo-0613",
-      "name": "gpt-3.5-turbo-0613",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 1.5,
-        "output": 2.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-3.5-0301",
-      "name": "gpt-3.5-0301",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 1.5,
-        "output": 2.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-3.5-turbo-instruct",
-      "name": "gpt-3.5-turbo-instruct",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 1.5,
-        "output": 2.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "gpt-3.5-turbo-16k-0613",
-      "name": "gpt-3.5-turbo-16k-0613",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 3.0,
-        "output": 4.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "davinci-002",
-      "name": "davinci-002",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 2.0,
-        "output": 2.0,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
-      },
-      "context_window": null,
-      "tiered_pricing": null,
-      "free_tier": {
-        "has_free_tier": false,
-        "rate_limit_rpm": null,
-        "data_used_for_training": null
-      },
-      "status": "active",
-      "tool_costs": {}
-    },
-    {
-      "id": "babbage-002",
-      "name": "babbage-002",
-      "vendor": "openai",
-      "pricing": {
-        "standard_input": 0.4,
-        "output": 0.4,
-        "cached_input": null,
-        "batch_input": null,
-        "batch_output": null
+        "batch_input": 1.0,
+        "batch_output": 4.0
       },
       "context_window": null,
       "tiered_pricing": null,
